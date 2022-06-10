@@ -18,8 +18,15 @@
         </el-form>
       </div>
     </el-col>
+    <el-col :span="14">
+      <d3-network ref="net" :net-nodes="nodes" :net-links="links"
+                  :options="options"
+                  :selection="selection"
+                  :class="svgClass"
+                  :link-cb="lcb"
+                  :node-cb="ncb" />
 
-    <d3-network ref="net" :net-nodes="nodes" :net-links="links" :options="options" :selection="selection" />
+    </el-col>
 <!--                :nodeSize="nodeSize"-->
 <!--                :linkWidth="linkWidth"-->
 <!--                :linkDistance="linkDistance"-->
@@ -111,7 +118,30 @@ export default {
         step:"",
         id:"",
         limit:"",
-      }
+      },
+      allNodeType: [
+        "author",
+        "interest",
+        "affiliation",
+        "paper",
+        "publication",
+      ],
+      allLinkType:[
+        "belong_to",
+        "cooperate",
+        "is_interested_in",
+        "publish",
+        "write",
+      ],
+      linkStyleList: [
+        "linkManage",
+        "linkDeployed",
+        "linkProvides",
+        "linkContains",
+        "linkSupervises",
+        "linkHas",
+        "linkProfile"
+      ],
     }
   },
   computed:{
@@ -138,11 +168,13 @@ export default {
       this.nodes = [];
       this.links = [];
       nodes.map(x => {
-        // console.log(x.properties.label)
+        console.log(x.properties.label)
         var la = x.properties.label.toString();
-        x.svgSym = nodeIcons[la];
+        // x.svgSym = nodeIcons[la];
+        console.log(nodeIcons[la])
       });
       this.nodes = nodes;
+
       this.links = links
     },
     async getDataFromANode(){
@@ -152,9 +184,41 @@ export default {
           step:this.form.step,
           limit:this.form.limit
         }}).then(res=>{
+        this.handleResuly(res.data.nodes,res.data.relations)
         console.log(res)
+
       })
-    }
+    },
+    lcb(link) {
+      link._color = "black";
+      // link._svgAttrs = {
+      //   "stroke-width": this.linkWidth,
+      //   opacity: 1,
+      //   "marker-end": "url(#m-end)"
+      // };
+      this.allLinkType.forEach((element, index) => {
+        if (link.properties.label == element) {
+          link._linkLabelClass = this.linkStyleList[index];
+          // console.log(link)
+        }
+      });
+      return link;
+    },
+    ncb(node) {
+      // this.allNodeType.forEach((element, index, array) => {
+      //   if (node.properties.label == element) {
+      //     console.log(element);
+      //     console.log("element");
+      //     node._cssClass = this.styleList[index];
+      //     // node._linkLabelClass = this.linkStyleList[index];
+      //     // console.log(node)
+      //   }
+      //   //  node._cssClass = this.styleList[1];
+      // });
+
+      // node._cssClass = "nodesInit";
+      return node;
+    },
   },
   created() {
 
