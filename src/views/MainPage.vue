@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="24" >
             <div style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
-              <el-form ref="form" :model="form" style="margin: 10px;">
+              <el-form ref="form" style="margin: 10px;">
                 <el-row>
                   <el-select v-model="form.label" placeholder="请选择">
                     <el-option
@@ -70,7 +70,7 @@
         <el-row>
           <el-col :span="24" >
             <div style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
-              <el-form ref="form" :model="form2" style="margin: 10px;">
+              <el-form ref="form" style="margin: 10px;">
                 <el-row>
                   <el-select v-model="form2.label" placeholder="请选择">
                     <el-option
@@ -94,7 +94,7 @@
               </el-form>
             </div>
           </el-col>
-          <el-col :span="14">
+          <el-col :span="24">
             <div v-if="tableData.label == 'author'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
               <el-descriptions title="作者信息">
                 <el-descriptions-item label="ID">{{tableData.author_id}}</el-descriptions-item>
@@ -107,19 +107,19 @@
               </el-descriptions>
             </div>
 
-            <div v-if="tableData.label == 'interest'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+            <div v-else-if="tableData.label == 'interest'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
               <el-descriptions title="兴趣信息">
                 <el-descriptions-item label="方向">{{tableData.interest_name}}</el-descriptions-item>
               </el-descriptions>
             </div>
 
-            <div v-if="tableData.label == 'affiliation'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+            <div v-else-if="tableData.label == 'affiliation'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
               <el-descriptions title="机构信息">
                 <el-descriptions-item label="名称">{{tableData.affiliation_name}}</el-descriptions-item>
               </el-descriptions>
             </div>
 
-            <div v-if="tableData.label == 'paper'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+            <div v-else-if="tableData.label == 'paper'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
               <el-descriptions title="论文信息">
                 <el-descriptions-item label="标题">{{tableData.title}}</el-descriptions-item>
 
@@ -129,13 +129,219 @@
 
               </el-descriptions>
             </div>
+
+            <div v-else >
+
+            </div>
+
+          </el-col>
+          <el-col :span="24">
+            <div v-if='tableData2.label == "cooperate"' style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="合作信息">
+                <el-descriptions-item label="次数">{{tableData2.cooperation_time}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
           </el-col>
 
         </el-row>
 
       </el-tab-pane>
-      <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-      <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+      <el-tab-pane label="获得领域关键作者" name="third">
+        <el-row>
+          <el-col :span="24" >
+            <div style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-form ref="form" style="margin: 10px;">
+                <el-row>
+                  名称：
+                  <el-input v-model="form3.name" style="width: 80%"></el-input>
+                  <el-button type="primary" @click="getAuthor">搜索</el-button>
+                </el-row>
+              </el-form>
+            </div>
+          </el-col>
+          <el-col :span="24">
+            <div v-if="tableData.label == 'author'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="作者信息">
+                <el-descriptions-item label="ID">{{tableData.author_id}}</el-descriptions-item>
+                <el-descriptions-item label="姓名">{{tableData.name}}</el-descriptions-item>
+                <el-descriptions-item label="论文数量">{{tableData.publish_count}}</el-descriptions-item>
+                <el-descriptions-item label="被引用量">{{tableData.total_citations}}</el-descriptions-item>
+                <el-descriptions-item label="p_index">{{tableData.p_index}}</el-descriptions-item>
+                <el-descriptions-item label="up_index">{{tableData.up_index}}</el-descriptions-item>
+                <el-descriptions-item label="h_index">{{tableData.h_index}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+
+            <div v-else-if="tableData.label == 'interest'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="兴趣信息">
+                <el-descriptions-item label="方向">{{tableData.interest_name}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+
+            <div v-else-if="tableData.label == 'affiliation'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="机构信息">
+                <el-descriptions-item label="名称">{{tableData.affiliation_name}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+
+            <div v-else-if="tableData.label == 'paper'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="论文信息">
+                <el-descriptions-item label="标题">{{tableData.title}}</el-descriptions-item>
+
+                <el-descriptions-item label="摘要">{{tableData.abstract}}</el-descriptions-item>
+
+                <el-descriptions-item label="年份">{{tableData.year}}</el-descriptions-item>
+
+              </el-descriptions>
+            </div>
+
+            <div v-else >
+
+            </div>
+
+          </el-col>
+          <el-col :span="24">
+            <div v-if='tableData2.label == "cooperate"' style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="合作信息">
+                <el-descriptions-item label="次数">{{tableData2.cooperation_time}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+          </el-col>
+
+        </el-row>
+
+      </el-tab-pane>
+      <el-tab-pane label="获得领域关键期刊" name="fourth">
+        <el-row>
+          <el-col :span="24" >
+            <div style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-form ref="form" style="margin: 10px;">
+                <el-row>
+                  名称：
+                  <el-input v-model="form3.name" style="width: 80%"></el-input>
+                  <el-button type="primary" @click="getPublication">搜索</el-button>
+                </el-row>
+              </el-form>
+            </div>
+          </el-col>
+          <el-col :span="24">
+            <div v-if="tableData.label == 'author'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="作者信息">
+                <el-descriptions-item label="ID">{{tableData.author_id}}</el-descriptions-item>
+                <el-descriptions-item label="姓名">{{tableData.name}}</el-descriptions-item>
+                <el-descriptions-item label="论文数量">{{tableData.publish_count}}</el-descriptions-item>
+                <el-descriptions-item label="被引用量">{{tableData.total_citations}}</el-descriptions-item>
+                <el-descriptions-item label="p_index">{{tableData.p_index}}</el-descriptions-item>
+                <el-descriptions-item label="up_index">{{tableData.up_index}}</el-descriptions-item>
+                <el-descriptions-item label="h_index">{{tableData.h_index}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+
+            <div v-else-if="tableData.label == 'interest'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="兴趣信息">
+                <el-descriptions-item label="方向">{{tableData.interest_name}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+
+            <div v-else-if="tableData.label == 'affiliation'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="机构信息">
+                <el-descriptions-item label="名称">{{tableData.affiliation_name}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+
+            <div v-else-if="tableData.label == 'paper'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="论文信息">
+                <el-descriptions-item label="标题">{{tableData.title}}</el-descriptions-item>
+
+                <el-descriptions-item label="摘要">{{tableData.abstract}}</el-descriptions-item>
+
+                <el-descriptions-item label="年份">{{tableData.year}}</el-descriptions-item>
+
+              </el-descriptions>
+            </div>
+
+            <div v-else >
+
+            </div>
+
+          </el-col>
+          <el-col :span="24">
+            <div v-if='tableData2.label == "cooperate"' style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="合作信息">
+                <el-descriptions-item label="次数">{{tableData2.cooperation_time}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+          </el-col>
+
+        </el-row>
+
+      </el-tab-pane>
+      <el-tab-pane label="获得领域关键机构" name="firth">
+        <el-row>
+          <el-col :span="24" >
+            <div style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-form ref="form" style="margin: 10px;">
+                <el-row>
+                  名称：
+                  <el-input v-model="form3.name" style="width: 80%"></el-input>
+                  <el-button type="primary" @click="getA">搜索</el-button>
+                </el-row>
+              </el-form>
+            </div>
+          </el-col>
+          <el-col :span="24">
+            <div v-if="tableData.label == 'author'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="作者信息">
+                <el-descriptions-item label="ID">{{tableData.author_id}}</el-descriptions-item>
+                <el-descriptions-item label="姓名">{{tableData.name}}</el-descriptions-item>
+                <el-descriptions-item label="论文数量">{{tableData.publish_count}}</el-descriptions-item>
+                <el-descriptions-item label="被引用量">{{tableData.total_citations}}</el-descriptions-item>
+                <el-descriptions-item label="p_index">{{tableData.p_index}}</el-descriptions-item>
+                <el-descriptions-item label="up_index">{{tableData.up_index}}</el-descriptions-item>
+                <el-descriptions-item label="h_index">{{tableData.h_index}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+
+            <div v-else-if="tableData.label == 'interest'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="兴趣信息">
+                <el-descriptions-item label="方向">{{tableData.interest_name}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+
+            <div v-else-if="tableData.label == 'affiliation'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="机构信息">
+                <el-descriptions-item label="名称">{{tableData.affiliation_name}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+
+            <div v-else-if="tableData.label == 'paper'" style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="论文信息">
+                <el-descriptions-item label="标题">{{tableData.title}}</el-descriptions-item>
+
+                <el-descriptions-item label="摘要">{{tableData.abstract}}</el-descriptions-item>
+
+                <el-descriptions-item label="年份">{{tableData.year}}</el-descriptions-item>
+
+              </el-descriptions>
+            </div>
+
+            <div v-else >
+
+            </div>
+
+          </el-col>
+          <el-col :span="24">
+            <div v-if='tableData2.label == "cooperate"' style="border-color: #2c3e50;border-width: thin;border-radius: 10px;box-shadow: 2px 2px 5px #000;padding: 10px;margin: 10px">
+              <el-descriptions title="合作信息">
+                <el-descriptions-item label="次数">{{tableData2.cooperation_time}}</el-descriptions-item>
+              </el-descriptions>
+            </div>
+          </el-col>
+
+        </el-row>
+
+      </el-tab-pane>
+
     </el-tabs>
       <d3-network ref="net" :net-nodes="nodes" :net-links="links"
                   :options="options"
@@ -163,6 +369,8 @@ export default {
   },
   data(){
     return{
+      form3:[],
+      tableData2: {},
       form2:[],
       optionsLabel:[
         {
@@ -272,6 +480,7 @@ export default {
       this.links = links
     },
     async getDataFromANode(){
+      console.log(this.form)
       await axios.get("/api/BI/getID",{
         params:{
           name:this.form.name,
@@ -326,6 +535,15 @@ export default {
     async clickNode(e,node){
       console.log(node)
       this.tableData = node.properties
+      this.tableData.label = this.tableData.label.toString()
+      console.log(this.form)
+      if(this.form.step===undefined || this.form.step === "" || this.form.step ===null){
+        this.form.step=1
+      }
+      if(this.form.limit===undefined || this.form.limit ==="" || this.form.limit === null){
+        this.form.limit=25
+      }
+
       await axios.get("http://101.43.113.43:8080/BI/searchANode",{
         params:{
           id:node.id,
@@ -352,6 +570,26 @@ export default {
             this.links.push(res.data.relations[k])
           }
         }
+        this.form.step = null
+        this.form.limit = null
+      })
+    },
+    clickLink(e,link){
+      this.tableData2 = link.properties
+      console.log(this.tableData2.label == 'cooperate')
+      console.log(this.tableData2)
+
+
+    },
+    async getPublication(){
+      await axios.get("/api/BI/getPublication",{
+        params:{
+          name:this.form3.name,
+        }
+      }).then(res=>{
+        this.nodes=[]
+        this.nodes.push(res.data.nodes)
+        this.links = []
       })
     },
     async getDataFromTwoNode(){
@@ -383,6 +621,28 @@ export default {
         this.handleResuly(res.data.nodes,res.data.relations)
         console.log(res)
 
+      })
+    },
+    async getA(){
+      await axios.get("/api/BI/getAuthor",{
+        params:{
+          name:this.form3.name,
+        }
+      }).then(res=>{
+        this.nodes=[]
+        this.nodes.push(res.data.nodes)
+        this.links = []
+      })
+    },
+    async getAuthor(){
+      await axios.get("/api/BI/getAuthor",{
+        params:{
+          name:this.form3.name,
+        }
+      }).then(res=>{
+        this.nodes=[]
+        this.nodes.push(res.data.nodes)
+        this.links = []
       })
     }
   },
